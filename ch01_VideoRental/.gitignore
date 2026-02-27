@@ -1,0 +1,17 @@
+# C# Build outputs
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Java Build outputs
+*.class
+*.jar
+*.war
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.bak

@@ -112,29 +112,49 @@ class Customer {
     }
 
     public string statement() {
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
         string result = "Rental Record for " + getName() + "\n";
 
-        foreach (Rental each in _rentals) {
-            double thisAmount = 0;
-
-            // 一行ごとに金額を計算
-            thisAmount = amountFor(each);
-
-            // レンタルポイントを加算
-            frequentRenterPoints += each.getFrequentRenterPoints();
-
-            //この貸し出しに関する数値の表示
+        foreach (Rental each in _rentals)
+        {   //この貸し出しに関する数値の表示
             result += "\t" + each.getMovie().getTitle() + "\t" +
-                      thisAmount.ToString() + "\n";
-            totalAmount += thisAmount;
+                      each.getCharge().ToString() + "\n";
         }
         //フッタ部分の追加
-        result += "Amount owed is " + totalAmount + "\n";
-        result += "You earned " + frequentRenterPoints
+        result += "Amount owed is " + getTotalCharge() + "\n";
+        result += "You earned " + getTotalFrequentRenterPoints()
                 + " frequent renter points";
 
+        return result;
+    }
+    
+    public string htmlStatement() {
+        string result = "<h1>Rental Record for <em>" + getName() + "</em></h1><p>\n";
+        foreach (Rental each in _rentals) 
+        {
+           //この貸し出しに関する数値の表示
+            result += each.getMovie().getTitle() + ": " +
+                      each.getCharge().ToString() + "<br>\n";
+        }
+        //フッタ部分の追加
+        result += "<p>You owe <em>" + getTotalCharge() + "</em><p>\n";
+        result += "On this rental you earned <em>" + getTotalFrequentRenterPoints()
+                + "</em> frequent renter points<p>";
+        return result;
+    }
+
+    private double getTotalCharge() {
+        double result = 0;
+        foreach (Rental each in _rentals) {
+            result += each.getCharge();
+        }
+        return result;
+    }
+
+    private int getTotalFrequentRenterPoints() {
+        int result = 0;
+        foreach (Rental each in _rentals) {
+            result += each.getFrequentRenterPoints();
+        }
         return result;
     }
 
